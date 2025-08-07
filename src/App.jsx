@@ -1,4 +1,6 @@
 import './App.css';
+import PropTypes from 'prop-types';
+
 //문제: users 배열 중 거주지가 서울인 사람의 이름과 나이를 화면에 렌더링해주세요.
 const users = [
   { id: 1, 이름: '홍길동', 나이: 25, 거주지: '서울' },
@@ -15,10 +17,40 @@ const users = [
 function App() {
   // 요구사항1.  filter() 매서드를 사용하여 users의 배열 중, 거주지가 '서울' 인 사람들만 seoulUsers 배열에 담아주세요.
   // 아래에 코드를 적어주세요 
-  const seoulUsers = 
+  const seoulUsers = users.filter(user => user.거주지 === '서울');
   // 요구사항2. map() 매서드를 사용해서 seoulUsers 배열에 있는 요소들을 화면에 표시해주세요.
   // 단, 이름: 나이: 이렇게 구분하여 표시되어야합니다.
-  return <>{seoulUsers.map()}</>;
+  return <>
+    {seoulUsers.map(user => (
+        <SeoulUser
+          key={user.id}
+          id={user.id}
+          name={user.이름}
+          age={user.나이}
+          place={user.거주지}
+        />
+      ))}
+  </>;
 }
+
+export function SeoulUser({ id, name, age, place }) {
+  return (
+    <div>
+      <span>{id}. </span>
+      <span>이름: {name} </span>
+      <span>나이: {age} </span>
+      <span>거주지: {place}</span>
+    </div>
+  );
+}
+
+// eslint props 타입 지정 에러 해결
+SeoulUser.propTypes = {
+  id:    PropTypes.number.isRequired,
+  name:  PropTypes.string.isRequired,
+  age:   PropTypes.number.isRequired,
+  place: PropTypes.string.isRequired,
+};
+
 
 export default App;
